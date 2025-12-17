@@ -9,6 +9,10 @@ Page {
     property bool notFound: false
     property bool genericError: false
 
+    property bool refreshPackagesVisible: typeof content.meta !== 'undefined'
+                                          && typeof content.meta.actions !== 'undefined'
+                                          && content.meta.actions.indexOf('refresh_repos') > -1
+
     id: page
     allowedOrientations: defaultAllowedOrientations
 
@@ -19,6 +23,7 @@ Page {
     }
 
     BusyLabel {
+        //: Inside a loader
         text: qsTr("Loading...")
         running: !page.loaded
     }
@@ -26,6 +31,19 @@ Page {
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height
+
+        PullDownMenu {
+            visible: refreshPackagesVisible
+
+            MenuItem {
+                visible: refreshPackagesVisible
+                //: Inside a pull down menu
+                text: qsTr("Refresh packages")
+                onClicked: {
+                    pageStack.push("RefreshPackages.qml");
+                }
+            }
+        }
 
         Column {
             id: column
@@ -38,11 +56,13 @@ Page {
             Label {
                 visible: notFound
                 horizontalAlignment: Qt.AlignHCenter
+                //: Error message
                 text: qsTr("The requested page wasn't found, please try again later")
             }
             Label {
                 visible: genericError
                 horizontalAlignment: Qt.AlignHCenter
+                //: Error message
                 text: qsTr("There was an error while loading the page, please try again later")
                 padding: Theme.paddingLarge
             }

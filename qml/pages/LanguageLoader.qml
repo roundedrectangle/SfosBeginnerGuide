@@ -6,6 +6,7 @@ Page {
     allowedOrientations: defaultAllowedOrientations
 
     BusyLabel {
+        //: Inside a loader
         text: qsTr("Loading...")
         running: true
     }
