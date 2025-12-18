@@ -19,6 +19,7 @@ SOURCES += src/harbour-beginner-guide.cpp \
     src/appsettings.cpp
 
 DISTFILES += qml/harbour-beginner-guide.qml \
+    qml/components/LinkButton.qml \
     qml/cover/CoverPage.qml \
     qml/pages/LanguageLoader.qml \
     qml/pages/ReaderPage.qml \

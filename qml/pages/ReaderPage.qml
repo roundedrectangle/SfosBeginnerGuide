@@ -1,9 +1,12 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "../components"
+
 Page {
     property string pageToLoad: ''
     property var content: ({})
+    property var links: []
 
     property bool loaded: false
     property bool notFound: false
@@ -16,6 +19,12 @@ Page {
         pageTitle.title = content.meta.title;
         mainText.text = content.content;
         page.loaded = true;
+
+        if (typeof content.links !== 'undefined') {
+            links = content.links;
+        }
+
+        console.log(JSON.stringify(content))
     }
 
     BusyLabel {
@@ -66,6 +75,18 @@ Page {
                     x: Theme.paddingLarge
                     textFormat: Text.RichText
                 }
+
+                Repeater {
+                    id: linksRepeater
+                    model: links
+
+                    LinkButton {
+                        text: modelData.title
+                        onClicked: {
+                            pageStack.push("ReaderPage.qml", {pageToLoad: modelData.link});
+                        }
+                    }
+                }
             }
         }
     }
@@ -80,12 +101,23 @@ Page {
             language = "en";
         }
 
+        if (pageToLoad.indexOf(language + "/") === 0) {
+            pageToLoad = pageToLoad.substring((language + "/").length);
+        }
+
         const pageUrl = apiUrl + '/' + language + '/' + pageToLoad;
+
+        if (isDebug) {
+            console.log('Sending GET request to ' + pageUrl);
+        }
 
         const xhr = new XMLHttpRequest();
         xhr.open("GET", pageUrl, true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (isDebug) {
+                    console.log('Got response from ' + pageUrl + ': ' + xhr.status);
+                }
                 if (xhr.status === 200) {
                     page.content = JSON.parse(xhr.responseText);
                     page.handleLoading();
