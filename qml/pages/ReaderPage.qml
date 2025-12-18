@@ -9,10 +9,6 @@ Page {
     property bool notFound: false
     property bool genericError: false
 
-    property bool refreshPackagesVisible: typeof content.meta !== 'undefined'
-                                          && typeof content.meta.actions !== 'undefined'
-                                          && content.meta.actions.indexOf('refresh_repos') > -1
-
     id: page
     allowedOrientations: defaultAllowedOrientations
 
@@ -33,16 +29,7 @@ Page {
         contentHeight: column.height
 
         PullDownMenu {
-            visible: refreshPackagesVisible
-
-            MenuItem {
-                visible: refreshPackagesVisible
-                //: Inside a pull down menu
-                text: qsTr("Refresh packages")
-                onClicked: {
-                    pageStack.push("RefreshPackages.qml");
-                }
-            }
+            visible: false // todo display based on actions
         }
 
         Column {

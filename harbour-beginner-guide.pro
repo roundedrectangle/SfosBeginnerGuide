@@ -13,6 +13,7 @@
 TARGET = harbour-beginner-guide
 
 CONFIG += sailfishapp
+QT += dbus
 
 SOURCES += src/harbour-beginner-guide.cpp \
     src/appsettings.cpp
@@ -21,7 +22,6 @@ DISTFILES += qml/harbour-beginner-guide.qml \
     qml/cover/CoverPage.qml \
     qml/pages/LanguageLoader.qml \
     qml/pages/ReaderPage.qml \
-    qml/pages/RefreshPackages.qml \
     rpm/harbour-beginner-guide.changes.in \
     rpm/harbour-beginner-guide.changes.run.in \
     rpm/harbour-beginner-guide.spec \
