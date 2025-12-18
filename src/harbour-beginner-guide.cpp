@@ -3,6 +3,9 @@
 #endif
 
 #include <QScopedPointer>
+#include <QQuickView>
+#include <QQmlContext>
+#include <QGuiApplication>
 
 #include <sailfishapp.h>
 
